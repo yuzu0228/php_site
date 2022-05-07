@@ -1,6 +1,6 @@
 <?php
 require('dbconnect.php');
- $code = $_POST['code'];
+ $code = $_POST['ecode'];
  $pw = $_POST['pw'];
 
  $sql = $db -> prepare('SELECT COUNT(ECODE) FROM EMPLOYEE WHERE ECODE=? AND PW =?');
