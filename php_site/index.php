@@ -1,23 +1,15 @@
 <?php
-require_once "dbconnect.php";
+//require_once "dbconnect.php";
 require_once "createSQL.php";
 ini_set('display_errors', 1);
 
 session_start();
 session_regenerate_id(true);
+//$dbc = new DBConnect();
+//$db = $dbc->ConnectDB();
 
-$db = ConnectDB();
 
 if(empty($_POST)) {
-  
-  /*
-  if($_COOKIE['ecode'] != '') {
-    //クッキーによる自動ログイン処理
-    $_POST['ecode'] = $_COOKIE['ecode'];
-    $_POST['pw'] = $_COOKIE['pw'];
-    $_POST['save'] = 'on';
-  }*/
-  
   
   if(isset($_SESSION['ecode']) && $_SESSION['time'] + 3600 > time()) {
     //ログインしている
@@ -36,67 +28,46 @@ if(!empty($_POST)) {
   if($_POST['ecode'] != '' && $_POST['pw'] != '') {
     $arg = [$_POST['ecode'], $_POST['pw']];
     $createSQL = new CreateSQL;
-    $ret = $createSQL->read($arg, '1', $db);
+    $ret = $createSQL->read($arg, '1');
  
     if ($ret[0] == "0"){
       //ログイン失敗
       $alert = "<script type='text/javascript'>alert('ログインに失敗しました。');</script>";
       echo $alert;
     }
+    else if ($ret[0] == "error"){
+      echo $ret[1];
+    }
     else {
       //ログイン成功
       $_SESSION['ecode'] = $_POST['ecode'];
       $_SESSION['time'] = time();
 
-      //ログイン情報を記録
-      setcookie('ecode', $_POST['ecode'], time()+60*60*24*14);
-      setcookie('pw', $_POST['pw'], time()+60*60*24*14);
-
+      $arg = ['1','ログイン成功',$_POST['ecode']];
+      $createSQL->InsertLog($arg);
 
       header('Location: main.php');
       exit();
     }
   }
-  
 }
+
+require('header.php');
 ?>
 
-<head>
-<title>test</title>
-</head>
-<style type="text/css"></style>
 <body>
-<!--
-<table>
-<?php
-$sqlt = "SELECT * FROM EMPLOYEE";
-
-foreach ($db->query($sqlt) as $row) {
-print("<tr><td>".$row['ECODE']."</td>");
-print("<td>".$row["ENAME"]."</td></tr>");
-}
-$db = null;
-?>
-</table>
--->
-
-<form action="" method="post">
-    <label for="code">従業員番号:</label>
-    <input type="text" id="ecode" name="ecode" required minlength="4" maxlength="10" size="10">
-    <label for="pw">パスワード:</label>
-    <input type="text" id="pw" name="pw" required minlength="4" maxlength="100" size="10">
-    <!--<input type="button" value="ボタン" onclick="clickBtn1()" />-->
-
-    <input type="submit" name="send" value="ログイン">
-</form>
-
-<script>
-  function clickBtn1() {
-    var $ecode = document.getElementById("ecode").value;
-    var $pw = document.getElementById("pw").value;
-    //document.getElementById("span1").textContent = t1;
-  }
-</script>
-
+<div class="container">
+  <div class="border d-flex align-items-center justify-content-center" style="height:300px;">
+    <form action="" method="post">
+        <label for="code">従業員番号:</label>
+        <input type="text" id="ecode" name="ecode" required maxlength="10" size="10">
+        <br>
+        <label for="pw">パスワード:</label>
+        <input type="password" id="pw" name="pw" required maxlength="100" size="10">
+        <br>
+        <input type="submit" name="send" value="ログイン">
+    </form>
+  </div>
+</div>
 </body>
 </html>
