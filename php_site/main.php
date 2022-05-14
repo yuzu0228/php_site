@@ -18,10 +18,15 @@ require('header.php');
 ?>
 
 <body>
-<p>main</p>
-<?php 
-echo '<p>'.$ret['ECODE'].':'.$ret['ENAME'].'</p>';
-?>
+<p>メインメニュー</p>
+<div class="container">
+<div class="border d-flex " style="height:300px;">
+<div class="position-absolute.top-0.end-0">
+<p><?php echo $ret[0]['ECODE'].':'.$ret[0]['ENAME']?></p>
+</div>
+</div>
+</div>
+<a href="calendar.php">カレンダーテスト</a>
 <a href="logout.php">ログアウト</a>
 </body>
 </html>

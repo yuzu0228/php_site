@@ -5,9 +5,6 @@ ini_set('display_errors', 1);
 
 session_start();
 session_regenerate_id(true);
-//$dbc = new DBConnect();
-//$db = $dbc->ConnectDB();
-
 
 if(empty($_POST)) {
   
@@ -17,9 +14,6 @@ if(empty($_POST)) {
 
     header('Location: main.php');
     exit();
-    //$members = $db -> prepare('SELECT * FROM members WHERE id=?');
-    //$members -> execute([$_SESSION['id']]);
-    //$member = $members -> fetch();
   }
 }
 
@@ -30,7 +24,7 @@ if(!empty($_POST)) {
     $createSQL = new CreateSQL;
     $ret = $createSQL->read($arg, '1');
  
-    if ($ret[0] == "0"){
+    if ($ret[0][0] == "0"){
       //ログイン失敗
       $alert = "<script type='text/javascript'>alert('ログインに失敗しました。');</script>";
       echo $alert;
@@ -61,13 +55,14 @@ require('header.php');
     <form action="" method="post">
         <label for="code">従業員番号:</label>
         <input type="text" id="ecode" name="ecode" required maxlength="10" size="10">
-        <br>
+        <br><br>
         <label for="pw">パスワード:</label>
         <input type="password" id="pw" name="pw" required maxlength="100" size="10">
-        <br>
+        <br><br>
         <input type="submit" name="send" value="ログイン">
     </form>
   </div>
+  <a href="calendar.php">カレンダーテスト</a>
 </div>
 </body>
 </html>

@@ -1,7 +1,11 @@
 <?php
 // セッションの初期化
-// session_name("something")を使用している場合は特にこれを忘れないように!
 session_start();
+
+require_once "createSQL.php";
+$createSQL = new CreateSQL;
+$arg = ['1', 'ログアウト', $_SESSION['ecode']];
+$createSQL->InsertLog($arg);
 
 // セッション変数を全て解除する
 $_SESSION = array();
