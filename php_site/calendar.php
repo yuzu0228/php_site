@@ -1,8 +1,14 @@
 <?php
+
 // タイムゾーンを設定
 date_default_timezone_set('Asia/Tokyo');
-
 require_once "createSQL.php";
+session_start();
+//session_regenerate_id(true);
+if(isset($_SESSION['ecode'])==false) {
+    print '<a href="logout.php">ログイン画面へ</a>';
+    exit();
+}
 
 // 前月・次月リンクが押された場合は、GETパラメーターから年月を取得
 if (isset($_GET['ym'])) {
@@ -17,7 +23,7 @@ $timestamp_now =strtotime(date('Y-m'), '-01');
 
 //当月の出勤簿データを取得
 $createSQL = new CreateSQL;
-$arg = ['0000000001', $ym];
+$arg = [$_SESSION['ecode'], $ym];
 $ret = $createSQL->read($arg, '3');
 
 // タイムスタンプを作成し、フォーマットをチェックする
@@ -91,11 +97,6 @@ for ( $day = 1; $day <= $day_count; $day++, $youbi++) {
         }
     }
 
- 
-
-
-    
-
     // 週終わり、または、月終わりの場合
     if ($youbi % 7 == 6 || $day == $day_count) {
 
@@ -117,6 +118,7 @@ for ( $day = 1; $day <= $day_count; $day++, $youbi++) {
 require('header.php');
 ?>
 <body>
+<a href="logout.php">ログアウト</a>
     <div class="container">
     <h3 class="mb-5"><a href="?ym=<?php echo $prev; ?>">&lt;</a> <?php echo $html_title; ?> <a href="?ym=<?php echo $next; ?>">&gt;</a></h3>
         <table class="table table-bordered">
@@ -136,5 +138,9 @@ require('header.php');
             ?>
         </table>
     </div>
+    <form method="post">
+        <input type="submit" name="button" value="Excel出力"/>
+
+    </form>
 </body>
 </html>

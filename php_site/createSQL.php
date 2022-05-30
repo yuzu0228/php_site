@@ -54,5 +54,27 @@ class CreateSQL{
             return $ret;
         }
     }
+
+    public function Update ($arg, $no) {
+        $dbc = new DBConnect();
+        $db = $dbc->ConnectDB();
+
+        switch ($no) {
+            case '1':
+                $sql = "UPDATE WORKRECORD SET STIME = ?, FTIME = ?, WORKFLG = '1' WHERE ECODE = ? AND DATE = replace(iif(len('" . $arg[3] . "')= 9, stuff('" . $arg[3] . "', 9, 0, '0'), ?), '-', '')";
+                break;
+        }
+
+        try {
+            $insert = $db -> prepare($sql);
+            $insert -> execute($arg);
+            $ret = $insert -> fetch();
+        } 
+        catch (PDOexception $e)
+        {
+            $ret = ['error', $e->getMessage()];
+            return $ret;
+        }
+    }
 }
 ?>

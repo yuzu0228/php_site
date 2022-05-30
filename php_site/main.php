@@ -23,10 +23,10 @@ require('header.php');
 <div class="border d-flex " style="height:300px;">
 <div class="position-absolute.top-0.end-0">
 <p><?php echo $ret[0]['ECODE'].':'.$ret[0]['ENAME']?></p>
-</div>
-</div>
-</div>
-<a href="calendar.php">カレンダーテスト</a>
+<a href="calendar.php">カレンダーテスト</a><br>
 <a href="logout.php">ログアウト</a>
+</div>
+</div>
+</div>
 </body>
 </html>

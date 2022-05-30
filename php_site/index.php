@@ -1,10 +1,18 @@
 <?php
 //require_once "dbconnect.php";
 require_once "createSQL.php";
+require_once "excelexport/ExportExcelFile.php";
 ini_set('display_errors', 1);
 
 session_start();
 session_regenerate_id(true);
+
+//test
+if(isset($_POST['excelexport'])){
+  $excel = new ExportExcelFile();
+  $excel->ExportFile("./exceltemplate/出勤簿.xlsx");
+  
+}
 
 if(empty($_POST)) {
   
@@ -63,6 +71,11 @@ require('header.php');
     </form>
   </div>
   <a href="calendar.php">カレンダーテスト</a>
+
+    <form action="savefile.php" method="post">
+      <input type="submit" name="excelexport" value="Excel出力"/>
+
+    </form>
 </div>
 </body>
 </html>
