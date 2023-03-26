@@ -11,7 +11,9 @@ if(isset($_SESSION['ecode'])==false) {
 }
 
 // 前月・次月リンクが押された場合は、GETパラメーターから年月を取得
-if (isset($_GET['ym'])) {
+if (!empty($_POST['yyyymm'])) {
+    $ym = $_POST['yyyymm'];
+} elseif (isset($_GET['ym'])) {
     $ym = $_GET['ym'];
 } else {
     // 今月の年月を表示
@@ -119,9 +121,20 @@ require('header.php');
 ?>
 <body>
 <a href="logout.php">ログアウト</a>
+<a href="main.php">メインメニュー</a>
+<form action="savefile.php" method="post">
+    <input type="hidden" name="exportkind" value="syukinbo" >
+    <input type="hidden" name="yyyymm" value=<?php echo $ym; ?> >
+    <input type="submit" name="excelexport" value="Excel出力"/>
+</form>
     <div class="container">
     <h3 class="mb-5"><a href="?ym=<?php echo $prev; ?>">&lt;</a> <?php echo $html_title; ?> <a href="?ym=<?php echo $next; ?>">&gt;</a></h3>
-        <table class="table table-bordered">
+    <form action="" method="post">
+        <label for="code">年月指定</label>
+        <input type="text" id="yyyymm" name="yyyymm" required maxlength="10" size="10">
+        <input type="submit" name="send" value="検索">
+    </form>
+        <table class="table table-bordered" width = "200">
             <tr>
                 <th>日</th>
                 <th>月</th>
@@ -138,9 +151,6 @@ require('header.php');
             ?>
         </table>
     </div>
-    <form method="post">
-        <input type="submit" name="button" value="Excel出力"/>
 
-    </form>
 </body>
 </html>

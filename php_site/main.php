@@ -18,15 +18,15 @@ require('header.php');
 ?>
 
 <body>
-<p>メインメニュー</p>
-<div class="container">
-<div class="border d-flex " style="height:300px;">
-<div class="position-absolute.top-0.end-0">
-<p><?php echo $ret[0]['ECODE'].':'.$ret[0]['ENAME']?></p>
-<a href="calendar.php">カレンダーテスト</a><br>
-<a href="logout.php">ログアウト</a>
-</div>
-</div>
+<div class="container border">
+    <div class="">
+        <p class="">メインメニュー</p>
+        <pp class="ecode"><?php echo $ret[0]['ECODE'].':'.$ret[0]['ENAME']?></p>
+    </div>
+    <div class="d-flex justify-content-center align-items-center " style="height:300px;">
+        <a href="calendar.php" class="btn btn-primary" style="margin:10px;">カレンダーテスト</a><br>
+        <a href="logout.php"  class="btn btn-primary" style="margin:10px;">ログアウト</a>
+    </div>
 </div>
 </body>
 </html>

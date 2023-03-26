@@ -70,12 +70,6 @@ require('header.php');
         <input type="submit" name="send" value="ログイン">
     </form>
   </div>
-  <a href="calendar.php">カレンダーテスト</a>
-
-    <form action="savefile.php" method="post">
-      <input type="submit" name="excelexport" value="Excel出力"/>
-
-    </form>
 </div>
 </body>
 </html>
